@@ -1,7 +1,9 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI("AIzaSyBZp2M33EdiyvenMKdu-HaXA38jz-OYL-g");
+require('dotenv').config();
+const geminiApiKey = process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(geminiApiKey);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const app = express();
@@ -44,7 +46,7 @@ app.get('/', async (req, res) => {
 
 	prompt += JSON.stringify(news)
 
-	console.log(prompt)
+	console.log(geminiApiKey)
 	const result = await model.generateContent(prompt);
 	console.log(result.response.text());
 
